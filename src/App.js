@@ -11,7 +11,7 @@ class App extends Component {
     }
   }
   componentDidMount=()=>{
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/books/`).then(response=>{
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/get-books`).then(response=>{
       this.setState({
         data:response.data
       })
@@ -21,18 +21,19 @@ class App extends Component {
   render(){
   return (
     <>
-    { !this.state.data && <alert> The book collection is empty!</alert>}
-    {this.state.data > 0 && this.state.data.map( book => {
+    
+    
 
-   <BestBooks       title={book.title}
-                    description={book.description}
-                    status={book.status}
-                    email={book.email} 
-                         /> })}
+<h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+
+{this.state.data.length ?  <BestBooks  booksData={this.state.data}  />
+ :   <h3>No Books Found  </h3>}
+
+   
     </>
    
   )
-}
+  }
 }
 
 export default App;
