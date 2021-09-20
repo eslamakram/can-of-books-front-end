@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component } from 'react';
 import BestBooks from './BestBooks';
 import axios from 'axios';
+import BookFormModal from './components/BookFormModal';
 
 class App extends Component {
   constructor(props){
@@ -18,11 +19,43 @@ class App extends Component {
     })
   }
 
+
+  handleBookInput=e=>{
+    
+    this.setState({
+      title:e.target.value
+    })
+   
+  }
+
+  handleSubmit=e=>{
+    
+      e.preventDefault();
+      let config={
+        method:"POST",
+        baseURL:"http://localhost:8000",
+        url:"/create-book",
+        data:{
+              title: this.state.title,
+              description: this.state.description,
+              status: this.state.status,
+            email: this.state.email
+        }
+        
+      }
+      axios(config).then(response=>{
+        this.setState({
+          booksList:response.data
+        })
+      })
+    
+  }
+
   render(){
   return (
     <>
     
-    
+    <BookFormModal handleSubmit={this.handleSubmit} handleBookInput={this.handleBookInput}/>
 
 <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 
