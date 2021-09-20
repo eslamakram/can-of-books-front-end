@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Carousel } from 'react-bootstrap'
+// import  style from '../styles/style.css'
 
-export class CarouselItem extends Component {
+ class CarouselItem extends Component {
 
     // constructor(props){
     //     super(props);
@@ -18,10 +19,12 @@ export class CarouselItem extends Component {
     render() {
         return (
             <div>
-                <Carousel 
+                <Carousel indicators={false} 
+                // style={{width :'500px'}, {height :'400px'}}
                 // activeIndex={this.state.index} onSelect={this.handleSelect}
                 >
-                <Carousel.Item interval={2000}>
+                <Carousel.Item  interval={2000}
+                >
                     <img
                         className="d-block w-100"
                         src={this.props.bookimg}
