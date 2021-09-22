@@ -36,7 +36,7 @@ class BestBooks extends Component {
               <h6>{this.props.email} </h6>
         <br></br>
         <>
-          <Button variant="primary" onClick={() => { this.props.handleUpdateBook(this.props.id) }}>Update</Button>
+          <Button variant="primary" onClick={() => { this.props.handleUpdateBook(this.props.id, this.props.title,this.props.description,this.props.status,this.props.email) }}>Update</Button>
            <Button variant="warning" onClick={() => { this.props.handleDeleteBook(this.props.id) }} >Delete</Button>
           </>
             </Carousel.Caption>
