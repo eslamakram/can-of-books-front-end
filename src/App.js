@@ -1,8 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Component } from 'react';
 import BestBooks from './BestBooks';
+import { withAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import BookFormModal from './components/BookFormModal';
+import Header from './Header';
+import LoginButton from './components/LoginButton';
+import LogoutButton from './components/LogoutButton';
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +19,27 @@ class App extends Component {
       email: '',
       id: '',
       showUpdate: false
+    }
+  }
+
+  callApi = () => {
+    if(this.props.auth0.isAuthenticated) {
+      this.props.auth0.getIdTokenClaims()
+      .then(res => {
+        const jwt = res.__raw;
+        const config = {
+          headers: {"Authorization" : `Bearer ${jwt}`},
+          method: 'get',
+          baseURL: process.env.REACT_APP_BACKEND_URL,
+          url: '/auth'
+        }
+        axios(config)
+          .then(result => console.log(result.data))
+          .catch(err => console.error(err));
+      })
+      .catch(err => console.error(err));
+    }else{
+      console.log("user is not authenticated")
     }
   }
   componentDidMount = () => {
@@ -105,9 +130,11 @@ class App extends Component {
     return (
       <>
 
-
-{
-          !this.state.showUpdate?<>
+{this.props.auth0.isAuthenticated?
+<>
+     <Header/>
+     <LogoutButton/>
+{ !this.state.showUpdate?<>
            <BookFormModal
           handleBookTitle={this.handleBookTitle}
           handleBookDescripion={this.handleBookDescripion}
@@ -147,7 +174,7 @@ class App extends Component {
             />
           }))
           : (<h3>No Books Found  </h3>)}
-
+</>:  <LoginButton/>}
 
       </>
 
@@ -155,4 +182,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withAuth0(App);
