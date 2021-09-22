@@ -1,60 +1,59 @@
 import React, { Component } from 'react'
-import  style from './style.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import book1Img from "./assets/124378.jpg"
-import book2Img from "./assets/124384.jpg"
-import book3Img from "./assets/124405.jpg"
-import { Carousel } from 'react-bootstrap'
-let imgs = [book1Img, book2Img,book3Img];
+// import book2Img from "./assets/124384.jpg"
+// import book3Img from "./assets/124405.jpg"
+import { Carousel, Button } from 'react-bootstrap'
+// let imgs = [book1Img, book2Img, book3Img];
 
-class BestBooks extends Component {
 
  
-    render() {
-     return( 
-       <>
+class BestBooks extends Component {
+
+
+  render() {
+    return (
+      <div >
+
+
+        <Carousel 
       
-     { this.props.booksData.map( (book, idx )=> {
+        indicators={false}
+        controls={false}
+        >
+          <Carousel.Item interval={2000}>
+            {/* {imgs.forEach(img => */}
+            <img
+              className="d-block w-100"
+              src={book1Img}
+              alt="Third slide"
+            />
 
-             return  ( 
-               <div >
-             <Carousel indicators={false}  className={Carousel}
-             // activeIndex={this.state.index} onSelect={this.handleSelect}
-             >
-             <Carousel.Item  interval={2000}
-             >
-                 <img
-                     className="d-block w-100"
-                     src={imgs[idx]}
-                     alt="Third slide"
-                 />
+            <Carousel.Caption>
+              <h3>{this.props.title}</h3>
+              <p> {this.props.description}</p>
+              <h5> {this.props.status}</h5>
+              <h6>{this.props.email} </h6>
+        <br></br>
+        <>
+          <Button variant="primary" onClick={() => { this.props.handleUpdateBook(this.props.id) }}>Update</Button>
+           <Button variant="warning" onClick={() => { this.props.handleDeleteBook(this.props.id) }} >Delete</Button>
+          </>
+            </Carousel.Caption>
 
-                 <Carousel.Caption>
-                     <h3>{book.title}</h3>
-                     <p> {book.description}</p>
-                     <h5> {book.status}</h5>
-                     <h6>{book.email} </h6>
-                 </Carousel.Caption>
-             </Carousel.Item>
-             </Carousel>
-             </div>  
-            //  <CarouselItem title={book.title}
-            //              description={book.description}
-            //              status={book.status}
-            //              email={book.email}
-            //              bookimg={imgs[idx]}
-            //               />
+           
+            
+                     </Carousel.Item>
+                     
+        </Carousel>
 
 
+      </div>
 
-             )
-                          })}
-             </>
+    )
 
-     )
-       
-    }
+  }
 }
 
 export default BestBooks
-
 
