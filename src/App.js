@@ -1,8 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import BestBooks from './BestBooks';
 import axios from 'axios';
 import BookFormModal from './components/BookFormModal';
+import LoginButton from './components/LoginButton';
+import LogoutButton  from './components/LogoutButton';
+import { withAuth0 } from '@auth0/auth0-react';
+import { Row } from 'react-bootstrap';
+ import{ Image } from 'react-bootstrap';
 
 class App extends Component {
   constructor(props) {
@@ -25,9 +30,7 @@ class App extends Component {
     })
   }
 
- 
-
-  handleDeleteBook = (id) => {
+   handleDeleteBook = (id) => {
     let config = {
       method: "DELETE",
       baseURL: `${process.env.REACT_APP_BACKEND_URL}`,
@@ -105,8 +108,15 @@ class App extends Component {
     return (
       <>
 
-
 {
+          this.props.auth0.isAuthenticated?
+          <>
+          <LogoutButton/>
+          
+          <Image src={this.props.auth0.user.picture} alt="" roundedCircle />
+          <h6> sign in by : {this.props.auth0.user.name}</h6>
+          
+          {
           !this.state.showUpdate?<>
            <BookFormModal
           handleBookTitle={this.handleBookTitle}
@@ -148,11 +158,18 @@ class App extends Component {
           }))
           : (<h3>No Books Found  </h3>)}
 
+          
+          </>:
+          <LoginButton/>
+        }
+
+
+
+
 
       </>
 
     )
   }
 }
-
-export default App;
+export default withAuth0(App);
